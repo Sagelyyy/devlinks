@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "InstrumentSans-Bold";
+  src: url("@/assets/fonts/InstrumentSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InstrumentSans-Regular";
+  src: url("@/assets/fonts/InstrumentSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InstrumentSans-SemiBold";
+  src: url("@/assets/fonts/InstrumentSans-SemiBold.ttf") format("truetype");
+}
