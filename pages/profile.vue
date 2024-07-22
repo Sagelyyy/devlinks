@@ -1,13 +1,14 @@
 <template>
-  <div class="flex justify-center bg-off-white h-fit pb-6">
-    <div class="grid grid-cols-3 gap-6 bg-off-white">
-      <div class="bg-white p-20 flex justify-center rounded-xl">
+  <div class="flex justify-center h-fit pb-6">
+    <div class="grid grid-cols-3 gap-6">
+      <div class="bg-white flex justify-center items-center rounded-xl">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="308"
           height="632"
           fill="none"
           viewBox="0 0 308 632"
+          class="self-center"
         >
           <path
             stroke="#737373"
@@ -38,21 +39,49 @@
           </p>
         </div>
         <AltButton state="active">+ Add new link</AltButton>
-        <div
-          class="flex flex-col self-center gap-6 text-center bg-off-white p-5 rounded-xl"
-        >
+        <div class="flex flex-col self-center gap-6 text-center p-5 rounded-xl">
           <div class="flex flex-col gap-6">
-            <div class="flex bg-off-white rounded-xl p-4 justify-center">
+            <div class="flex bg-off-white rounded-xl p-5 justify-center">
               <p class="text-light-grey p-6 self-center text-left">
                 Profile picture
               </p>
               <UploadImageVue />
-              <p class="text-light-grey text-xs self-center p-6">
-                Image must be below 1024x1024px. Use PNG or JPG format.
-              </p>
+              <div class="flex flex-col gap-0.5 self-center p-6 text-left">
+                <p class="text-light-grey text-xs">
+                  Image must be below 1024x1024px.
+                </p>
+                <p class="text-light-grey text-xs">Use PNG or JPG format.</p>
+              </div>
             </div>
 
-            <div class="flex flex-col bg-off-white rounded-xl"></div>
+            <div class="flex flex-col bg-off-white rounded-xl gap-3 p-5">
+              <div class="flex justify-between items-center">
+                <p
+                  class="text-light-grey p-6 self-center text-left text-nowrap"
+                >
+                  First Name*
+                </p>
+                <div class="w-3/4">
+                  <InputVue placeholder="e.g. Chris" type="text" />
+                </div>
+              </div>
+              <div class="flex justify-between items-center">
+                <p
+                  class="text-light-grey p-6 self-center text-left text-nowrap"
+                >
+                  Last Name*
+                </p>
+                <div class="w-3/4">
+                  <InputVue placeholder="e.g. Smith" type="text" />
+                </div>
+              </div>
+              <div class="flex justify-between items-center">
+                <p class="text-light-grey p-6 self-center text-left">Email</p>
+                <div class="w-3/4">
+                  <InputVue placeholder="e.g. chris@example.com" type="text" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
