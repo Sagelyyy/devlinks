@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import LoginVue from "../components/LoginVue.vue";
+definePageMeta({
+  layout: "auth",
+});
 </script>
 
 <template>
-  <div class="bg-off-white w-screen h-screen flex items-center justify-center">
+  <div>
     <LoginVue />
   </div>
 </template>

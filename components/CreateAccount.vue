@@ -71,7 +71,7 @@ import ButtonVue from "./ButtonVue.vue";
         Password must contain at least 8 characters
       </p>
       <ButtonVue state="active">Create new account</ButtonVue>
-      <p class="text-light-grey">
+      <p class="text-light-grey text-center">
         Already have an account?
         <NuxtLink class="text-blurple" to="/login">Login</NuxtLink>
       </p>

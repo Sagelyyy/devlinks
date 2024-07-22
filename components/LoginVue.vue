@@ -54,7 +54,7 @@ import ButtonVue from "./ButtonVue.vue";
         />
       </div>
       <ButtonVue state="active">Login</ButtonVue>
-      <p class="text-light-grey">
+      <p class="text-light-grey text-center">
         Don't have an account?
         <NuxtLink class="text-blurple" to="/signup">Create account</NuxtLink>
       </p>

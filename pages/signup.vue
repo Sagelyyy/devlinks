@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import CreateAccount from "../components/CreateAccount.vue";
+definePageMeta({
+  layout: "auth",
+});
 </script>
 
 <template>
-  <div class="bg-off-white w-screen h-screen flex items-center justify-center">
+  <div>
     <CreateAccount />
   </div>
 </template>
