@@ -1,5 +1,5 @@
 <template>
-  <div class="p-12 flex flex-col justify-center bg-pale-blurple">
+  <div class="p-12 flex flex-col justify-center bg-pale-blurple rounded-xl">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"

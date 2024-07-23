@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-center h-fit pb-6">
-    <div class="grid grid-cols-3 gap-6">
-      <div class="bg-white flex justify-center items-center rounded-xl">
+  <div class="flex justify-center bg-off-white h-fit pb-6">
+    <div class="grid grid-cols-3 gap-6 bg-off-white">
+      <div class="bg-white p-20 flex justify-center rounded-xl">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="308"

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineProps<{
-  placeholder: string
-  type: string
-  svgPath: string
-}>()
+  placeholder: string;
+  type: string;
+  svgPath?: string;
+}>();
 </script>
 
 <template>
