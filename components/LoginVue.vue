@@ -1,11 +1,28 @@
 <script setup lang="ts">
-import InputVue from "./InputVue.vue";
-import ButtonVue from "./ButtonVue.vue";
+const username = ref("");
+const password = ref("");
+
+async function login() {
+  if (username.value && password.value) {
+    console.log("FETCH: " + username.value, password.value);
+    try {
+      $fetch("/api/auth/", {
+        method: "POST",
+        body: {
+          email: username.value,
+          password: password.value,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 </script>
 
 <template>
   <div
-    class="flex flex-col gap-4 font-instrument-regular justify-center items-center w-[482px]"
+    class="flex flex-col gap-4 font-instrument-regular justify-center items-center w-[482px] m-auto h-screen"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,6 +57,7 @@ import ButtonVue from "./ButtonVue.vue";
       <div class="flex flex-col gap-1">
         <label class="text-light-grey text-xs" for="email">Email address</label>
         <InputVue
+          v-model="username"
           placeholder="e.g. chris@email.com"
           type="email"
           svgPath="M14 3H2a.5.5 0 0 0-.5.5V12a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V3.5A.5.5 0 0 0 14 3Zm-.5 9h-11V4.637l5.162 4.732a.5.5 0 0 0 .676 0L13.5 4.637V12Z"
@@ -48,12 +66,13 @@ import ButtonVue from "./ButtonVue.vue";
       <div class="flex flex-col gap-1">
         <label class="text-light-grey text-xs" for="password">Password</label>
         <InputVue
+          v-model="password"
           placeholder="Enter your password"
           type="password"
           svgPath="M13 5h-2V3.5a3 3 0 0 0-6 0V5H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1ZM8.5 9.914V11.5a.5.5 0 0 1-1 0V9.914a1.5 1.5 0 1 1 1 0ZM10 5H6V3.5a2 2 0 1 1 4 0V5Z"
         />
       </div>
-      <ButtonVue state="active">Login</ButtonVue>
+      <ButtonVue @click="login" state="active">Login</ButtonVue>
       <p class="text-light-grey text-center">
         Don't have an account?
         <NuxtLink class="text-blurple" to="/signup">Create account</NuxtLink>

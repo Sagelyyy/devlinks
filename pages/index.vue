@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const { loggedIn, user, session, clear } = useUserSession();
+</script>
+
 <template>
   <div class="flex justify-center bg-off-white h-fit pb-6">
     <div class="grid grid-cols-3 gap-6 bg-off-white">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const model = defineModel();
 defineProps<{
   placeholder: string;
   type: string;
@@ -22,6 +23,7 @@ defineProps<{
       class="pl-12 pr-16 rounded-xl w-full h-[48px] bg-transparent font-instrument-regular text-grey border-pale-grey border-2 hover:border-blurple hover:cursor-pointer outline-none"
       :placeholder="placeholder"
       :type="type"
+      v-model="model"
     />
   </div>
 </template>
