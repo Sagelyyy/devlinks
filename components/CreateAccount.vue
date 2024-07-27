@@ -1,11 +1,46 @@
 <script setup lang="ts">
 import InputVue from "./InputVue.vue";
 import ButtonVue from "./ButtonVue.vue";
+
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+
+async function createAccount() {
+  if (email.value && password.value) {
+    if (password.value === confirmPassword.value) {
+      if (password.value.length < 8) {
+        alert("Password must be at least 8 characters long");
+        return;
+      }
+      try {
+        await $fetch("/api/register", {
+          method: "POST",
+          body: {
+            email: email.value,
+            password: password.value,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        navigateTo("/");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("Passwords do not match");
+    }
+  } else {
+    alert("Email and password are required");
+  }
+}
 </script>
 
 <template>
   <div
-    class="flex flex-col gap-4 font-instrument-regular justify-center items-center w-[482px]"
+    class="flex flex-col gap-4 font-instrument-regular justify-center items-center w-[482px] m-auto h-screen"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +77,7 @@ import ButtonVue from "./ButtonVue.vue";
       <div class="flex flex-col gap-1">
         <label class="text-light-grey text-xs" for="email">Email address</label>
         <InputVue
+          v-model="email"
           placeholder="e.g. chris@email.com"
           type="email"
           svgPath="M14 3H2a.5.5 0 0 0-.5.5V12a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V3.5A.5.5 0 0 0 14 3Zm-.5 9h-11V4.637l5.162 4.732a.5.5 0 0 0 .676 0L13.5 4.637V12Z"
@@ -52,6 +88,7 @@ import ButtonVue from "./ButtonVue.vue";
           >Create Password</label
         >
         <InputVue
+          v-model="password"
           placeholder="At least 8 characters"
           type="password"
           svgPath="M13 5h-2V3.5a3 3 0 0 0-6 0V5H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1ZM8.5 9.914V11.5a.5.5 0 0 1-1 0V9.914a1.5 1.5 0 1 1 1 0ZM10 5H6V3.5a2 2 0 1 1 4 0V5Z"
@@ -62,7 +99,8 @@ import ButtonVue from "./ButtonVue.vue";
           >Confirm Password</label
         >
         <InputVue
-          placeholder="At least 8 characters"
+          v-model="confirmPassword"
+          placeholder="Must match password"
           type="password"
           svgPath="M13 5h-2V3.5a3 3 0 0 0-6 0V5H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1ZM8.5 9.914V11.5a.5.5 0 0 1-1 0V9.914a1.5 1.5 0 1 1 1 0ZM10 5H6V3.5a2 2 0 1 1 4 0V5Z"
         />
@@ -70,7 +108,9 @@ import ButtonVue from "./ButtonVue.vue";
       <p class="text-light-grey text-xs">
         Password must contain at least 8 characters
       </p>
-      <ButtonVue state="active">Create new account</ButtonVue>
+      <ButtonVue state="active" @click="createAccount"
+        >Create new account</ButtonVue
+      >
       <p class="text-light-grey text-center">
         Already have an account?
         <NuxtLink class="text-blurple" to="/login">Login</NuxtLink>

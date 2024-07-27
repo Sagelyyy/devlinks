@@ -1,16 +1,31 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  devtools: { enabled: true },
+  sourcemap: {
+    server: true,
+    client: true,
+  },
+  supabase: {
+    redirectOptions: {
+      login: "/login",
+      callback: "/login",
+      exclude: ["/signup"],
+    },
+  },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
   css: ["~/assets/css/main.css"],
   pages: true,
-
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
-
-  modules: ["nuxt-auth-utils"]
+  modules: ["@nuxtjs/supabase"],
 });

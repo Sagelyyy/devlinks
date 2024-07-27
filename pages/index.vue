@@ -1,6 +1,4 @@
-<script setup lang="ts">
-const { loggedIn, user, session, clear } = useUserSession();
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="flex justify-center bg-off-white h-fit pb-6">

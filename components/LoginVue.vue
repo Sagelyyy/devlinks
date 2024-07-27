@@ -1,10 +1,9 @@
 <script setup lang="ts">
-const username = ref("");
-const password = ref("");
+const username = ref(null);
+const password = ref(null);
 
 async function login() {
   if (username.value && password.value) {
-    console.log("FETCH: " + username.value, password.value);
     try {
       $fetch("/api/auth/", {
         method: "POST",
@@ -13,6 +12,7 @@ async function login() {
           password: password.value,
         },
       });
+      navigateTo("/");
     } catch (error) {
       console.log(error);
     }
