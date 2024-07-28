@@ -77,6 +77,7 @@ async function createAccount() {
       <div class="flex flex-col gap-1">
         <label class="text-light-grey text-xs" for="email">Email address</label>
         <InputVue
+          @keyup.enter="createAccount"
           v-model="email"
           placeholder="e.g. chris@email.com"
           type="email"
@@ -88,6 +89,7 @@ async function createAccount() {
           >Create Password</label
         >
         <InputVue
+          @keyup.enter="createAccount"
           v-model="password"
           placeholder="At least 8 characters"
           type="password"
@@ -99,6 +101,7 @@ async function createAccount() {
           >Confirm Password</label
         >
         <InputVue
+          @keyup.enter="createAccount"
           v-model="confirmPassword"
           placeholder="Must match password"
           type="password"

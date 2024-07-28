@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
 interface ItemInterface {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
 defineProps<{
-  items: ItemInterface[]
-}>()
-const isOpen = ref(false)
+  items: ItemInterface[];
+}>();
+const isOpen = ref(false);
 
 function toggleDropdown() {
-  isOpen.value = !isOpen.value
+  isOpen.value = !isOpen.value;
 }
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative w-full">
     <svg
       class="absolute top-4 left-6 z-40"
       xmlns="http://www.w3.org/2000/svg"
@@ -33,9 +33,11 @@ function toggleDropdown() {
     </svg>
     <ul
       @click="toggleDropdown"
-      class="relative pl-12 rounded-xl w-[480px] h-[48px] bg-white font-instrument-regular text-grey border-pale-grey border-2 hover:border-blurple hover:cursor-pointer outline-none"
+      class="relative pl-12 rounded-xl w-full h-[48px] bg-white font-instrument-regular text-grey border-pale-grey border-2 hover:border-blurple hover:cursor-pointer outline-none"
     >
-      <span class="absolute top-1/4 left-16 select-none">Select an option...</span>
+      <span class="absolute top-1/4 left-16 select-none"
+        >Select an option...</span
+      >
       <svg
         :class="isOpen ? 'rotate-180' : 'rotate-0'"
         class="absolute top-4 right-6 transition-transform"
@@ -49,7 +51,7 @@ function toggleDropdown() {
       </svg>
       <div
         v-show="isOpen"
-        class="absolute top-16 left-0 rounded-xl w-[480px] bg-white font-instrument-regular text-grey border-pale-grey border-2 p-2"
+        class="absolute top-16 left-0 rounded-xl w-full bg-white font-instrument-regular text-grey border-pale-grey border-2 p-2 z-10"
       >
         <li
           v-for="item in items"

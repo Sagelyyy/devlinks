@@ -1,4 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const user = useSupabaseUser();
+
+const links = ref();
+
+if (user.value) {
+  try {
+    const { data } = await useFetch("/api/links", {
+      headers: useRequestHeaders(["cookie"]),
+      key: "links-from-server",
+    });
+
+    links.value = data.value;
+  } catch (error) {
+    console.log(error);
+  }
+}
+</script>
 
 <template>
   <div class="flex justify-center bg-off-white h-fit pb-6">
@@ -42,6 +59,7 @@
         </div>
         <AltButton state="active">+ Add new link</AltButton>
         <div
+          v-show="!links || links.length === 0"
           class="flex flex-col self-center gap-6 text-center bg-off-white p-5 rounded-xl"
         >
           <svg
@@ -147,6 +165,9 @@
               you share your profiles with everyone!
             </p>
           </div>
+        </div>
+        <div v-show="links">
+          <LinkEditor :links="links" />
         </div>
       </div>
     </div>

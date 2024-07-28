@@ -57,6 +57,7 @@ async function login() {
       <div class="flex flex-col gap-1">
         <label class="text-light-grey text-xs" for="email">Email address</label>
         <InputVue
+          @keyup.enter="login"
           v-model="username"
           placeholder="e.g. chris@email.com"
           type="email"
@@ -66,6 +67,7 @@ async function login() {
       <div class="flex flex-col gap-1">
         <label class="text-light-grey text-xs" for="password">Password</label>
         <InputVue
+          @keyup.enter="login"
           v-model="password"
           placeholder="Enter your password"
           type="password"
