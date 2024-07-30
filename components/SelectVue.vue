@@ -4,15 +4,30 @@ import { ref } from "vue";
 interface ItemInterface {
   id: number;
   name: string;
+  selected?: boolean;
+  path: string;
 }
 
-defineProps<{
+const props = defineProps<{
   items: ItemInterface[];
 }>();
+
 const isOpen = ref(false);
+const currentIcon = ref("");
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value;
+}
+
+function selectItem(propItems: ItemInterface[], listItem: ItemInterface) {
+  propItems.forEach((item) => {
+    item.selected = item.id === listItem.id;
+  });
+}
+
+// Need to somehow set the icon on inital load
+function setIcon(path: string) {
+  currentIcon.value = path;
 }
 </script>
 
@@ -26,17 +41,16 @@ function toggleDropdown() {
       fill="none"
       viewBox="0 0 16 16"
     >
-      <path
-        fill="#737373"
-        d="M8.523 11.72a.749.749 0 0 1 0 1.063l-.371.371A3.751 3.751 0 1 1 2.847 7.85l1.507-1.506A3.75 3.75 0 0 1 9.5 6.188a.753.753 0 0 1-1 1.125 2.25 2.25 0 0 0-3.086.091L3.908 8.91a2.25 2.25 0 0 0 3.183 3.183l.37-.371a.748.748 0 0 1 1.062 0Zm4.63-8.874a3.756 3.756 0 0 0-5.305 0l-.371.37A.751.751 0 1 0 8.539 4.28l.372-.37a2.25 2.25 0 0 1 3.182 3.182l-1.507 1.507a2.25 2.25 0 0 1-3.086.09.753.753 0 0 0-1 1.125 3.75 3.75 0 0 0 5.144-.152l1.507-1.507a3.756 3.756 0 0 0 .002-5.307v-.001Z"
-      />
+      <path fill="#737373" :d="currentIcon" />
     </svg>
     <ul
       @click="toggleDropdown"
       class="relative pl-12 rounded-xl w-full h-[48px] bg-white font-instrument-regular text-grey border-pale-grey border-2 hover:border-blurple hover:cursor-pointer outline-none"
     >
-      <span class="absolute top-1/4 left-16 select-none"
-        >Select an option...</span
+      <span class="absolute top-1/4 left-16 select-none">
+        {{
+          items.find((item) => item.selected)?.name || "Select an option..."
+        }}</span
       >
       <svg
         :class="isOpen ? 'rotate-180' : 'rotate-0'"
@@ -51,14 +65,30 @@ function toggleDropdown() {
       </svg>
       <div
         v-show="isOpen"
-        class="absolute top-16 left-0 rounded-xl w-full bg-white font-instrument-regular text-grey border-pale-grey border-2 p-2 z-10"
+        class="absolute top-14 left-0 rounded-xl w-full bg-white font-instrument-regular text-grey border-pale-grey border-2 p-2 z-10 shadow-xl"
       >
         <li
-          v-for="item in items"
+          @click="[selectItem(items, item), setIcon(item.path)]"
+          :class="item.selected ? 'text-blurple' : ''"
+          v-for="(item, index) in items"
           :key="item.id"
-          class="border-b-2 border-pale-grey p-2 hover:text-blurple last:border-none"
+          class="border-b-2 border-pale-grey p-2 hover:text-blurple last:border-none flex gap-2 self-center items-center"
         >
-          {{ item.name }}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="none"
+            viewBox="0 0 16 16"
+          >
+            <path
+              :fill="item.selected ? '#633CFF' : '#737373'"
+              :d="item.path"
+            />
+          </svg>
+          <span class="self-center">
+            {{ item.selected ? item.name + " (Selected)" : item.name }}</span
+          >
         </li>
       </div>
     </ul>
