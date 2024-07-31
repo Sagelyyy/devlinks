@@ -2,7 +2,7 @@
 interface LinkInterface {
   id: number;
   url: string;
-  user_id: number;
+  user_id: string;
   created_at: string;
   type: string;
 }
@@ -45,6 +45,7 @@ defineProps<{
     <SelectVue
       :items="
         socials.map((social) => ({
+          user_id: link.user_id,
           id: social.id,
           name: social.name,
           path: social.path,

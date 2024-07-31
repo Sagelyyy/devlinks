@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 interface ItemInterface {
+  user_id: string;
   id: number;
   name: string;
   selected?: boolean;
@@ -14,6 +13,7 @@ const props = defineProps<{
 
 const isOpen = ref(false);
 const currentIcon = ref("");
+const currentSelection = ref("");
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value;
@@ -23,11 +23,40 @@ function selectItem(propItems: ItemInterface[], listItem: ItemInterface) {
   propItems.forEach((item) => {
     item.selected = item.id === listItem.id;
   });
+
+  propItems.map((item) => {
+    if (item.selected) {
+      currentSelection.value = item.name;
+    }
+  });
 }
 
-// Need to somehow set the icon on inital load
 function setIcon(path: string) {
   currentIcon.value = path;
+}
+
+onMounted(() => {
+  props.items.forEach((item) => {
+    if (item.selected) {
+      setIcon(item.path);
+      currentSelection.value = item.name;
+    }
+  });
+});
+
+function updateSelection(user_id: string) {
+  try {
+    $fetch("/api/links/", {
+      method: "POST",
+      headers: useRequestHeaders(["cookie"]),
+      body: {
+        user_id,
+        type: currentSelection.value,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 </script>
 
@@ -68,7 +97,13 @@ function setIcon(path: string) {
         class="absolute top-14 left-0 rounded-xl w-full bg-white font-instrument-regular text-grey border-pale-grey border-2 p-2 z-10 shadow-xl"
       >
         <li
-          @click="[selectItem(items, item), setIcon(item.path)]"
+          @click="
+            [
+              selectItem(items, item),
+              setIcon(item.path),
+              updateSelection(item.user_id),
+            ]
+          "
           :class="item.selected ? 'text-blurple' : ''"
           v-for="(item, index) in items"
           :key="item.id"
