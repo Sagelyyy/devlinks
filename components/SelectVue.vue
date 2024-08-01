@@ -1,6 +1,5 @@
 <script setup lang="ts">
 interface ItemInterface {
-  user_id: string;
   id: number;
   name: string;
   selected?: boolean;
@@ -13,22 +12,19 @@ const props = defineProps<{
 
 const isOpen = ref(false);
 const currentIcon = ref("");
-const currentSelection = ref("");
+const currentSelection = ref();
+const currentType = ref("");
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value;
 }
 
-function selectItem(propItems: ItemInterface[], listItem: ItemInterface) {
-  propItems.forEach((item) => {
-    item.selected = item.id === listItem.id;
-  });
+function setType(type: string) {
+  currentType.value = type;
+}
 
-  propItems.map((item) => {
-    if (item.selected) {
-      currentSelection.value = item.name;
-    }
-  });
+function selectItem(id: number) {
+  currentSelection.value = props.items.find((item) => item.id === id);
 }
 
 function setIcon(path: string) {
@@ -36,22 +32,24 @@ function setIcon(path: string) {
 }
 
 onMounted(() => {
-  props.items.forEach((item) => {
+  props.items.forEach((item, index) => {
     if (item.selected) {
       setIcon(item.path);
-      currentSelection.value = item.name;
+      currentSelection.value = index;
+      currentType.value = item.name;
     }
   });
 });
 
-function updateSelection(user_id: string) {
+function updateSelection(link_id: number, type: string) {
+  console.log(link_id, type);
   try {
     $fetch("/api/links/", {
       method: "POST",
       headers: useRequestHeaders(["cookie"]),
       body: {
-        user_id,
-        type: currentSelection.value,
+        id: link_id,
+        type,
       },
     });
   } catch (error) {
@@ -77,9 +75,7 @@ function updateSelection(user_id: string) {
       class="relative pl-12 rounded-xl w-full h-[48px] bg-white font-instrument-regular text-grey border-pale-grey border-2 hover:border-blurple hover:cursor-pointer outline-none"
     >
       <span class="absolute top-1/4 left-16 select-none">
-        {{
-          items.find((item) => item.selected)?.name || "Select an option..."
-        }}</span
+        {{ currentType || "Select an option..." }}</span
       >
       <svg
         :class="isOpen ? 'rotate-180' : 'rotate-0'"
@@ -99,9 +95,10 @@ function updateSelection(user_id: string) {
         <li
           @click="
             [
-              selectItem(items, item),
+              selectItem(item.id),
               setIcon(item.path),
-              updateSelection(item.user_id),
+              updateSelection(item.id, item.name),
+              setType(item.name),
             ]
           "
           :class="item.selected ? 'text-blurple' : ''"

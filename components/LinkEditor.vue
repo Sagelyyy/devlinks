@@ -46,7 +46,7 @@ defineProps<{
       :items="
         socials.map((social) => ({
           user_id: link.user_id,
-          id: social.id,
+          id: link.id,
           name: social.name,
           path: social.path,
           selected:
