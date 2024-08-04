@@ -1,10 +1,5 @@
 <script setup lang="ts">
-interface ItemInterface {
-  id: number;
-  name: string;
-  selected?: boolean;
-  path: string;
-}
+import type { ItemInterface } from "../types/links";
 
 const props = defineProps<{
   items: ItemInterface[];
@@ -40,22 +35,6 @@ onMounted(() => {
     }
   });
 });
-
-function updateSelection(link_id: number, type: string) {
-  console.log(link_id, type);
-  try {
-    $fetch("/api/links/", {
-      method: "POST",
-      headers: useRequestHeaders(["cookie"]),
-      body: {
-        id: link_id,
-        type,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
 </script>
 
 <template>
@@ -93,14 +72,7 @@ function updateSelection(link_id: number, type: string) {
         class="absolute top-14 left-0 rounded-xl w-full bg-white font-instrument-regular text-grey border-pale-grey border-2 p-2 z-10 shadow-xl"
       >
         <li
-          @click="
-            [
-              selectItem(item.id),
-              setIcon(item.path),
-              updateSelection(item.id, item.name),
-              setType(item.name),
-            ]
-          "
+          @click="[selectItem(item.id), setIcon(item.path), setType(item.name)]"
           :class="item.selected ? 'text-blurple' : ''"
           v-for="(item, index) in items"
           :key="item.id"

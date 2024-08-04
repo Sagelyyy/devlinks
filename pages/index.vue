@@ -1,20 +1,8 @@
 <script setup lang="ts">
-const user = useSupabaseUser();
+const linkStore = useLinkStore();
 
-const links = ref();
-
-if (user.value) {
-  try {
-    const { data } = await useFetch("/api/links", {
-      headers: useRequestHeaders(["cookie"]),
-      key: "links-from-server",
-    });
-
-    links.value = data.value;
-  } catch (error) {
-    console.log(error);
-  }
-}
+await callOnce("links", () => linkStore.getLinks());
+const links = computed(() => linkStore.links);
 </script>
 
 <template>

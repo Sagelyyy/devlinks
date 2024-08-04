@@ -12,6 +12,9 @@ export default defineNuxtConfig({
       exclude: ["/signup"],
     },
   },
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
   devtools: {
     enabled: true,
 
@@ -27,5 +30,5 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ["@nuxtjs/supabase"],
+  modules: ["@nuxtjs/supabase", "@pinia/nuxt"],
 });
