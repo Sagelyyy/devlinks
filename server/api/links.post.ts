@@ -18,7 +18,8 @@ export default defineEventHandler(async (event) => {
 
       const { data, error } = await supabase
         .from("links")
-        .upsert(updates, { onConflict: "id" });
+        .upsert(updates, { onConflict: "id" })
+        .select();
 
       if (error) {
         console.log(error);

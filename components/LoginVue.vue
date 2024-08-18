@@ -5,14 +5,16 @@ const password = ref(null);
 async function login() {
   if (username.value && password.value) {
     try {
-      $fetch("/api/auth/", {
+      const { data, status, error } = await useFetch("/api/auth", {
         method: "POST",
         body: {
           email: username.value,
           password: password.value,
         },
       });
-      navigateTo("/");
+      if (status.value === "success") {
+        await navigateTo("/");
+      }
     } catch (error) {
       console.log(error);
     }

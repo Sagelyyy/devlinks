@@ -2,17 +2,17 @@
 import { socials } from "../utils/socials";
 import type { LinkInterface } from "../types/links";
 
-defineProps<{
+const props = defineProps<{
   links: LinkInterface[];
 }>();
 
-const linkStore = useLinkStore();
-const localLinks = ref([...linkStore.links]);
+const profileStore = useProfileStore();
+const localLinks = ref([...profileStore.links]);
 
 function saveData() {
   console.log(localLinks.value);
-  linkStore.setLinks(localLinks.value);
-  linkStore.saveLinks();
+  profileStore.setLinks(localLinks.value);
+  profileStore.saveLinks();
 }
 </script>
 
@@ -28,7 +28,6 @@ function saveData() {
     <SelectVue
       :items="
         socials.map((social) => ({
-          user_id: link.user_id,
           id: link.id,
           name: social.name,
           path: social.path,

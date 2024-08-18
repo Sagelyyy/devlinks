@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const linkStore = useLinkStore();
+const profileStore = useProfileStore();
 
-await callOnce("links", () => linkStore.getLinks());
-const links = computed(() => linkStore.links);
+await callOnce("links", () => profileStore.getLinks());
+const links = computed(() => profileStore.links);
 </script>
 
 <template>

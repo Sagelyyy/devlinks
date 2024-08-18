@@ -8,11 +8,10 @@ export default defineEventHandler(async (event) => {
       const { data, error } = await client
         .from("links")
         .select("*")
-        .eq("user_id", user.id);
+        .eq("profile_id", user.id);
       if (error) {
         console.log("User Error: ", error);
       }
-
       return data;
     } else {
       console.log("User not found");
