@@ -11,10 +11,13 @@ async function login() {
           email: username.value,
           password: password.value,
         },
+        onResponse({ request, response, options }) {
+          console.log(response);
+          if (response.ok == true) {
+            navigateTo("/");
+          }
+        },
       });
-      if (status.value === "success") {
-        await navigateTo("/");
-      }
     } catch (error) {
       console.log(error);
     }
