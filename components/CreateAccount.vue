@@ -14,7 +14,7 @@ async function createAccount() {
         return;
       }
       try {
-        await $fetch("/api/register", {
+        await useFetch("/api/register", {
           method: "POST",
           body: {
             email: email.value,
@@ -23,9 +23,13 @@ async function createAccount() {
           headers: {
             "Content-Type": "application/json",
           },
+          onResponse({ request, response, options }) {
+            console.log(response);
+            if (response.ok == true) {
+              navigateTo("/login");
+            }
+          },
         });
-
-        navigateTo("/");
       } catch (error) {
         console.log(error);
       }

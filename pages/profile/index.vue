@@ -40,7 +40,6 @@
             Add your details to create a personal touch to your profile.
           </p>
         </div>
-        <AltButton state="active">+ Add new link</AltButton>
         <div class="flex flex-col self-center gap-6 text-center p-5 rounded-xl">
           <div class="flex flex-col gap-6">
             <div class="flex bg-off-white rounded-xl p-5 justify-center">

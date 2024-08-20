@@ -5,7 +5,7 @@ const password = ref(null);
 async function login() {
   if (username.value && password.value) {
     try {
-      const { data, status, error } = await useFetch("/api/auth", {
+      await useFetch("/api/auth", {
         method: "POST",
         body: {
           email: username.value,

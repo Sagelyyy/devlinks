@@ -25,7 +25,7 @@ export const useProfileStore = defineStore("profile", {
           method: "GET",
           headers: useRequestHeaders(["cookie"]),
         });
-        this.links = data;
+        this.links = data ?? [];
         return data;
       } catch (error) {
         console.log(error);
