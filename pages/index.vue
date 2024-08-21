@@ -3,6 +3,12 @@ const profileStore = useProfileStore();
 
 await callOnce("links", () => profileStore.getLinks());
 const links = computed(() => profileStore.links);
+
+watchEffect(() => {
+  if (links.value) {
+    callOnce("links", () => profileStore.getLinks());
+  }
+});
 </script>
 
 <template>
@@ -45,7 +51,9 @@ const links = computed(() => profileStore.links);
             the world!
           </p>
         </div>
-        <AltButton state="active">+ Add new link</AltButton>
+        <AltButton @click="profileStore.addLink" state="active"
+          >+ Add new link</AltButton
+        >
         <div
           v-show="!links || links.length === 0"
           class="flex flex-col self-center gap-6 text-center bg-off-white p-5 rounded-xl"

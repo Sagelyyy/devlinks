@@ -32,10 +32,32 @@ export const useProfileStore = defineStore("profile", {
       }
     },
 
-    async saveLinks() {
+    async addLink() {
+      const newLink = [
+        {
+          url: "",
+          type: "",
+        },
+      ];
       try {
         const data = await $fetch("/api/links", {
           method: "POST",
+          headers: useRequestHeaders(["cookie"]),
+          body: {
+            links: newLink,
+          },
+        });
+        this.getLinks();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async saveLinks() {
+      try {
+        const data = await $fetch("/api/links", {
+          method: "PUT",
+          headers: useRequestHeaders(["cookie"]),
           body: {
             links: this.links,
           },
