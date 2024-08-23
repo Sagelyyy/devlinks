@@ -1,13 +1,53 @@
 <script setup lang="ts">
-const profileStore = useProfileStore();
+import type { RealtimeChannel } from "@supabase/supabase-js";
+import type { LinkInterface } from "~/types/links";
 
-await callOnce("links", () => profileStore.getLinks());
-const links = computed(() => profileStore.links);
+const client = useSupabaseClient();
+const user = useSupabaseUser();
 
-watchEffect(() => {
-  if (links.value) {
-    callOnce("links", () => profileStore.getLinks());
-  }
+let realtimeChannel: RealtimeChannel;
+const links = useState("links", () => [] as LinkInterface[]);
+
+const { data } = await useAsyncData("links", async () => {
+  const { data } = await client
+    .from("links")
+    .select("*")
+    .eq("profile_id", user.value.id);
+  links.value = data?.slice() ?? [];
+  return data;
+});
+
+onMounted(() => {
+  realtimeChannel = client
+    .channel("public:links")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "links" },
+      (payload) => {
+        if (payload.eventType === "INSERT") {
+          links.value = [...links.value, payload.new as LinkInterface];
+        } else if (payload.eventType === "UPDATE") {
+          const index = links.value.findIndex(
+            (link) => link.id === payload.old.id
+          );
+          if (index !== -1) {
+            links.value.splice(index, 1, payload.new as LinkInterface);
+          }
+        } else if (payload.eventType === "DELETE") {
+          const index = links.value.findIndex(
+            (link) => link.id === payload.old.id
+          );
+          if (index !== -1) {
+            links.value.splice(index, 1);
+          }
+        }
+      }
+    )
+    .subscribe();
+});
+
+onUnmounted(() => {
+  client.removeChannel(realtimeChannel);
 });
 </script>
 
@@ -51,7 +91,7 @@ watchEffect(() => {
             the world!
           </p>
         </div>
-        <AltButton @click="profileStore.addLink" state="active"
+        <AltButton @click="console.log('NYI')" state="active"
           >+ Add new link</AltButton
         >
         <div

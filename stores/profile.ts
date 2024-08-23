@@ -20,6 +20,7 @@ export const useProfileStore = defineStore("profile", {
       }
     },
     async getLinks() {
+      console.log("Getting links...");
       try {
         const data = await $fetch<LinkInterface[]>("/api/links", {
           method: "GET",
@@ -47,7 +48,7 @@ export const useProfileStore = defineStore("profile", {
             links: newLink,
           },
         });
-        this.getLinks();
+        console.log("data: ", data);
         return data;
       } catch (error) {
         console.log(error);

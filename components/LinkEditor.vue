@@ -2,26 +2,18 @@
 import { socials } from "../utils/socials";
 import type { LinkInterface } from "../types/links";
 
-const props = defineProps<{
+defineProps<{
   links: LinkInterface[];
 }>();
-
-const profileStore = useProfileStore();
-const localLinks = ref([...profileStore.links]);
-
-function saveData() {
-  console.log(localLinks.value);
-  profileStore.setLinks(localLinks.value);
-  profileStore.saveLinks();
-}
 </script>
 
 <template>
   <div
-    v-for="(link, index) in localLinks"
+    v-for="(link, index) in links"
     :key="link.id"
     class="flex flex-col mb-6 justify-center items-center bg-off-white p-5 rounded-xl"
   >
+    {{ (link.url, link.type) }}
     <p class="text-light-grey text-sm font-instrument-regular self-start">
       Platform
     </p>
@@ -49,8 +41,6 @@ function saveData() {
     />
   </div>
   <div class="flex justify-end">
-    <ButtonVue class="self-center w-1/6" state="active" @click="saveData"
-      >Save</ButtonVue
-    >
+    <ButtonVue class="self-center w-1/6" state="active">Save</ButtonVue>
   </div>
 </template>
